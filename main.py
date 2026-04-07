@@ -1,8 +1,10 @@
 import cv2
 
 from ml_dict.camera_file import VehicleDetector
+from ml_dict.vehicle_counter import VehicleCounter
 
 detector = VehicleDetector()
+counter = VehicleCounter(line_position=300)
 
 cap = cv2.VideoCapture(0)
 
@@ -11,7 +13,14 @@ while cap.isOpened():
     if not ret:
         break
 
+    frame = cv2.resize(frame, (800, 600))
     detections = detector.detect(frame)
+
+    # Update counter
+    total_count = counter.update(detections)
+
+    # draw line
+    cv2.line(frame, (0, 300), (800, 300), (0, 0, 255), 2)
 
     for det in detections:
         x1, y1, x2, y2 = det["bbox"]
@@ -30,6 +39,16 @@ while cap.isOpened():
             2,
         )
 
+    # Display count
+    cv2.putText(
+        frame,
+        f"Vehicle Count: {total_count}",
+        (20, 50),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1,
+        (255, 0, 0),
+        2,
+    )
     cv2.imshow("Vehicle Detection", frame)
     if cv2.waitKey(1) & 0xFF == 27:
         break
