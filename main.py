@@ -6,7 +6,7 @@ from ml_dict.vehicle_counter import VehicleCounter
 detector = VehicleDetector()
 counter = VehicleCounter(line_position=300)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("video.mp4")
 
 while cap.isOpened():
     ret, frame = cap.read()
