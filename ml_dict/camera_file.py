@@ -1,3 +1,6 @@
+#This file is for camera system used for detection
+# detection of moving vechiles from different ranges
+
 from ultralytics import YOLO
 import cv2
 
