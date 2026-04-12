@@ -1,7 +1,7 @@
 import cv2
 
-from ml_dict.camera_file import VehicleDetector
-from ml_dict.vehicle_counter import VehicleCounter
+from src.camera_file import VehicleDetector
+from src.vehicle_counter import VehicleCounter
 
 detector = VehicleDetector()
 counter = VehicleCounter(line_position=300)
