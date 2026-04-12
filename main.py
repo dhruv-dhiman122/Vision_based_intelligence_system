@@ -72,6 +72,9 @@ while cap.isOpened():
         (255, 0, 0),
         2,
     )
+
+    cv2.putText(frame, f"Traffic: {traffic_level}",(20,100),cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,255),2)
+
     cv2.imshow("Vehicle Detection", frame)
     if cv2.waitKey(1) & 0xFF == 27:
         break
