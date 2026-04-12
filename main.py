@@ -11,7 +11,7 @@ counter = VehicleCounter(line_position=300)
 analyzer = TrafficAnalyzer()
 
 # TODO -> to replace with my telegram bot details
-# notifier = Notifier("token", "my chat id")
+notifier = Notifier("token", "my chat id")
 cap = cv2.VideoCapture("video.mp4")
 
 if not cap.isOpened():
@@ -26,10 +26,21 @@ while cap.isOpened():
         break
 
     frame = cv2.resize(frame, (800, 600))
-    detections = detector.detect(frame)
+    detections = detector.detect(frame) # TODO -> recheck if the detect_and_track function
 
     # Update counter
     total_count = counter.update(detections)
+
+    # Log data every few frames
+    if frame_count % 30 == 0:
+        analyzer.log_data(total_count)
+
+    #traffic level
+    traffic_level = analyzer.get_traffic_level(total_count)
+
+    # send alert if high traffic
+    if total_count > 30:
+        notifier.sent_alert(f"High Traffic! Count: {total_count}")
 
     # draw line
     cv2.line(frame, (0, 300), (800, 300), (0, 0, 255), 2)
