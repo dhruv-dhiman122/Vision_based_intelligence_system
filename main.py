@@ -14,6 +14,12 @@ analyzer = TrafficAnalyzer()
 # notifier = Notifier("token", "my chat id")
 cap = cv2.VideoCapture("video.mp4")
 
+if not cap.isOpened():
+    print("Error: Cannot open video")
+    exit();
+
+frame_count = 0
+
 while cap.isOpened():
     ret, frame = cap.read()
     if not ret:
