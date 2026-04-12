@@ -10,6 +10,8 @@ detector = VehicleDetector()
 counter = VehicleCounter(line_position=300)
 analyzer = TrafficAnalyzer()
 
+# TODO -> to replace with my telegram bot details
+# notifier = Notifier("token", "my chat id")
 cap = cv2.VideoCapture("video.mp4")
 
 while cap.isOpened():
