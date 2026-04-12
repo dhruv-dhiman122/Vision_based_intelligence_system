@@ -2,9 +2,13 @@ import cv2
 
 from src.camera_file import VehicleDetector
 from src.vehicle_counter import VehicleCounter
+from analysis.traffic_analysis import TrafficAnalyzer
+from utils.notifier import Notifier
 
+#Initialize modules
 detector = VehicleDetector()
 counter = VehicleCounter(line_position=300)
+analyzer = TrafficAnalyzer()
 
 cap = cv2.VideoCapture("video.mp4")
 
