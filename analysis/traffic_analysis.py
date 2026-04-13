@@ -32,9 +32,9 @@ class TrafficAnalyzer:
     def get_traffic_level(self, count):
         if count < 10:
             return "Low"
-        elif count < 30 and count <= 100:
+        elif count < 30:
             return "Medium"
-        elif count >= 101 and count > 125:
+        else:
             return "High"
 
     def plot_traffic(self):
