@@ -99,3 +99,10 @@ def generate_frames():
 def index():
     analyzer.plot_traffic()  # update graph
     return render_template("index.html")
+
+
+@api.route("/video")
+def video():
+    return Response(
+        generate_frames(), mimetype="multipart/x-mixed-replace; boundary=frame"
+    )
