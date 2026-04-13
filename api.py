@@ -19,3 +19,30 @@ notifier = Notifier("YOUR_TOKEN", "CHAT_ID")
 cap = cv2.VideoCapture("video2.mp4")
 
 frame_count = 0
+
+
+def generate_frames():
+    global frame_count
+
+    while True:
+        success, frame = cap.read()
+        if not success:
+            break
+
+        frame = cv2.resize(frame, (800, 600))
+
+        # AI detection
+        detections = detector.detect(frame)
+
+        # counting
+        total_count = counter.update(detections)
+
+        # analysis
+        if frame_count % 30 == 0:
+            analyzer.log_data(total_count)
+
+        traffic_level = analyzer.get_traffic_level(total_count)
+
+        # notification
+        if total_count > 30:
+            notifier.sent_alert(f"High traffic detected: {total_count}")
