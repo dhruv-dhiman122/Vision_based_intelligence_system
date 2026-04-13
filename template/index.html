@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <title>AI Traffic System</title>
+        <style>
+            body {
+                font-family: Arial;
+                text-align: center;
+                background: #111;
+                color: white;
+            }
+
+            img {
+                border-radius: 10px;
+                margin: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>🚦 AI Traffic Monitoring System</h1>
+
+        <h2>Live Video</h2>
+        <img src="{{ url_for('video') }}" width="800" />
+
+        <h2>Traffic Analysis Graph</h2>
+        <img src="/static/graph.png" width="800" />
+    </body>
+</html>
