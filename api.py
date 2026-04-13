@@ -46,3 +46,42 @@ def generate_frames():
         # notification
         if total_count > 30:
             notifier.sent_alert(f"High traffic detected: {total_count}")
+
+        # Draw line
+        cv2.line(frame, (0, 300), (800, 300), (0, 0, 255), 2)
+
+        # Draw box
+        for det in detections:
+            x1, y1, x2, y2 = det["bbox"]
+            label = det["label"]
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            cv2.putText(
+                frame,
+                label,
+                (x1, y1 - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 255, 0),
+                2,
+            )
+
+        # text info
+        cv2.putText(
+            frame,
+            f"Count: {total_count}",
+            (20, 50),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1,
+            (255, 0, 0),
+            2,
+        )
+
+        cv2.putText(
+            frame,
+            f"Traffic: {traffic_level}",
+            (20, 100),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1,
+            (0, 255, 255),
+            2,
+        )
