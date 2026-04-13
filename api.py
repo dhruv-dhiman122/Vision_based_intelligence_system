@@ -93,3 +93,9 @@ def generate_frames():
         yield (b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 
         frame_count += 1
+
+
+@api.route("/")
+def index():
+    analyzer.plot_traffic()  # update graph
+    return render_template("index.html")
