@@ -85,3 +85,11 @@ def generate_frames():
             (0, 255, 255),
             2,
         )
+
+        # Stream frame
+        ret, buffer = cv2.imencode(".jpg", frame)
+        frame = buffer.tobytes()
+
+        yield (b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
+
+        frame_count += 1
