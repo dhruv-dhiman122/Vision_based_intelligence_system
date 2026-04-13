@@ -26,7 +26,7 @@ class TrafficAnalyzer:
 
         new_row = {"time": current_time, "vehicle_count": vehicle_count}
 
-        self.df = pd.concat([self.df, pd.DateFrame([new_row])], ignore_index=True)
+        self.df = pd.concat([self.df, pd.DataFrame([new_row])], ignore_index=True)
         self.df.to_csv(self.output_file, index=False)
 
     def get_traffic_level(self, count):
