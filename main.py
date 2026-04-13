@@ -1,22 +1,22 @@
 import cv2
 
+from analysis.traffic_analysis import TrafficAnalyzer
 from src.camera_file import VehicleDetector
 from src.vehicle_counter import VehicleCounter
-from analysis.traffic_analysis import TrafficAnalyzer
 from utils.notifier import Notifier
 
-#Initialize modules
+# Initialize modules
 detector = VehicleDetector()
 counter = VehicleCounter(line_position=300)
 analyzer = TrafficAnalyzer()
 
 # TODO -> to replace with my telegram bot details
 notifier = Notifier("token", "my chat id")
-cap = cv2.VideoCapture("video.mp4")
+cap = cv2.VideoCapture("video2.mp4")
 
 if not cap.isOpened():
     print("Error: Cannot open video")
-    exit();
+    exit()
 
 frame_count = 0
 
@@ -26,7 +26,9 @@ while cap.isOpened():
         break
 
     frame = cv2.resize(frame, (800, 600))
-    detections = detector.detect(frame) # TODO -> recheck if the detect_and_track function
+    detections = detector.detect(
+        frame
+    )  # TODO -> recheck if the detect_and_track function
 
     # Update counter
     total_count = counter.update(detections)
@@ -35,7 +37,7 @@ while cap.isOpened():
     if frame_count % 30 == 0:
         analyzer.log_data(total_count)
 
-    #traffic level
+    # traffic level
     traffic_level = analyzer.get_traffic_level(total_count)
 
     # send alert if high traffic
@@ -73,7 +75,15 @@ while cap.isOpened():
         2,
     )
 
-    cv2.putText(frame, f"Traffic: {traffic_level}",(20,100),cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,255),2)
+    cv2.putText(
+        frame,
+        f"Traffic: {traffic_level}",
+        (20, 100),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1,
+        (0, 255, 255),
+        2,
+    )
 
     cv2.imshow("Vehicle Detection", frame)
 
@@ -84,5 +94,5 @@ while cap.isOpened():
 cap.release()
 cv2.destroyAllWindows()
 
-#SHow graph after execution
+# SHow graph after execution
 analyzer.plot_traffic()
