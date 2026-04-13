@@ -1,3 +1,5 @@
+from logging import DEBUG
+
 import cv2
 from flask import Flask, Response, render_template
 
@@ -106,3 +108,7 @@ def video():
     return Response(
         generate_frames(), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
+
+
+if __name__ == "__main__":
+    api.run(debug=True)
