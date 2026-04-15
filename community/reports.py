@@ -23,3 +23,12 @@ class TrafficReportSystem:
             self.reports.pop(0)
 
         return report
+
+    def get_reports(self):
+        return self.reports
+
+    def get_recent_reports(self, limit=5):
+        return self.reports[-limit:]
+
+    def get_reports_by_location(self, location: str):
+        return [r for r in self.reports if r["location"].lower() == location.lower()]
