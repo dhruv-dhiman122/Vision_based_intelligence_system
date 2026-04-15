@@ -1,7 +1,7 @@
 from logging import DEBUG
 
 import cv2
-from flask import Flask, Response, render_template
+from flask import Flask, Response, jsonify, render_template, request
 
 from analysis.traffic_analysis import TrafficAnalyzer
 from chatbot.chatbot import TrafficChatbot
@@ -109,6 +109,13 @@ def video():
     return Response(
         generate_frames(), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
+
+
+@api.route("/chat", methods=["POST"])
+def chat():
+    user_message = request.json.get("message")
+    response = chatbot.get_response(user_message)
+    return jsonify({"response": response})
 
 
 if __name__ == "__main__":
