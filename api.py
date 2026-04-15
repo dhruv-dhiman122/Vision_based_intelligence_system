@@ -131,5 +131,10 @@ def report():
     return jsonify(report)
 
 
+@api.route("/reports", methods=["GET"])
+def get_reports():
+    return jsonify(report_system.get_reports())
+
+
 if __name__ == "__main__":
     api.run(debug=True)
