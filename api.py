@@ -15,6 +15,7 @@ api = Flask(__name__)
 detector = VehicleDetector()
 counter = VehicleCounter(line_position=300)
 analyzer = TrafficAnalyzer()
+chatbot = TrafficChatbot(counter, analyzer)
 
 notifier = Notifier("YOUR_TOKEN", "CHAT_ID")
 
