@@ -5,6 +5,7 @@ from flask import Flask, Response, jsonify, render_template, request
 
 from analysis.traffic_analysis import TrafficAnalyzer
 from chatbot.chatbot import TrafficChatbot
+from community.reports import TrafficReportSystem
 from src.camera_file import VehicleDetector
 from src.vehicle_counter import VehicleCounter
 from utils.notifier import Notifier
@@ -16,6 +17,7 @@ detector = VehicleDetector()
 counter = VehicleCounter(line_position=300)
 analyzer = TrafficAnalyzer()
 chatbot = TrafficChatbot(counter, analyzer)
+report_system = TrafficReportSystem()
 
 notifier = Notifier("YOUR_TOKEN", "CHAT_ID")
 
@@ -116,6 +118,13 @@ def chat():
     user_message = request.json.get("message")
     response = chatbot.get_response(user_message)
     return jsonify({"response": response})
+
+
+@api.route("/report", methods=["POST"])
+def report():
+    data = request.json
+
+    report = report_system.add_report()
 
 
 if __name__ == "__main__":
