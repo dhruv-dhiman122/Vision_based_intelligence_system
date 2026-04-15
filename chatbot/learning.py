@@ -23,3 +23,14 @@ class TrafficLearningSystem:
             return data
 
         return None
+
+    def get_insights(self):
+        summary = {"accident": 0, "heavy": 0, "low": 0}
+
+        for d in self.learned_data:
+            summary[d["type"]] += 1
+
+        return summary
+
+    def get_recent(self, limit=5):
+        return self.learned_data[-limit:]
