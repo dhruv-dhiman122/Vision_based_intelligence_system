@@ -124,7 +124,11 @@ def chat():
 def report():
     data = request.json
 
-    report = report_system.add_report()
+    report = report_system.add_report(
+        location=data.get("location"), message=data.get("message")
+    )
+
+    return jsonify(report)
 
 
 if __name__ == "__main__":
