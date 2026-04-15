@@ -136,5 +136,12 @@ def get_reports():
     return jsonify(report_system.get_reports())
 
 
+@api.route("\chat", methods=["POST"])
+def chat():
+    user_message = request.json.get("message")
+    response = chatbot.get_response(user_message)
+    return jsonify({"response": response})
+
+
 if __name__ == "__main__":
     api.run(debug=True)
