@@ -26,3 +26,7 @@ class TrafficDataStore:
 
     def get_summary(self):
         return self.df["event_type"].value_counts().to_dict()
+
+    def get_hourly_traffic(self):
+        self.df["hour"] = self.df["timestamp"].dt.hour
+        return self.df.groupby("hour").size()
