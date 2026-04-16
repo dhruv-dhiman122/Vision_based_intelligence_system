@@ -3,6 +3,7 @@ from logging import DEBUG
 import cv2
 from flask import Flask, Response, jsonify, render_template, request
 
+from analysis.data_store import TrafficDataStore
 from analysis.traffic_analysis import TrafficAnalyzer
 from chatbot.chatbot import TrafficChatbot
 from community.reports import TrafficReportSystem
@@ -18,6 +19,7 @@ counter = VehicleCounter(line_position=300)
 analyzer = TrafficAnalyzer()
 chatbot = TrafficChatbot(counter, analyzer)
 report_system = TrafficReportSystem()
+data_store = TrafficDataStore()
 
 notifier = Notifier("YOUR_TOKEN", "CHAT_ID")
 
@@ -47,6 +49,9 @@ def generate_frames():
             analyzer.log_data(total_count)
 
         traffic_level = analyzer.get_traffic_level(total_count)
+
+        if frame_count % 30 == 0:
+            data_store.add_event("Camera Zone", traffic_level, source="AI")
 
         # notification
         if total_count > 30:
@@ -136,7 +141,7 @@ def get_reports():
     return jsonify(report_system.get_reports())
 
 
-@api.route("\chat", methods=["POST"])
+@api.route("/chat", methods=["POST"])
 def chat():
     user_message = request.json.get("message")
     response = chatbot.get_response(user_message)
