@@ -13,3 +13,13 @@ class TrafficDataStore:
                 "source",
             ]
         )
+
+    def add_event(self, location, event_type, source="AI"):
+        new_row = {
+            "timestamp": datetime.now(),
+            "location": location,
+            "event_type": event_type,
+            "source": source,
+        }
+
+        self.df = pd.concat([self.df, pd.DataFrame([new_row])], ignore_index=True)
