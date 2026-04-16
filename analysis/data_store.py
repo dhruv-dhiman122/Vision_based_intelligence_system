@@ -23,3 +23,6 @@ class TrafficDataStore:
         }
 
         self.df = pd.concat([self.df, pd.DataFrame([new_row])], ignore_index=True)
+
+    def get_summary(self):
+        return self.df["event_type"].value_counts().to_dict()
