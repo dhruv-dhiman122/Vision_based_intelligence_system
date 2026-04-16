@@ -30,3 +30,6 @@ class TrafficDataStore:
     def get_hourly_traffic(self):
         self.df["hour"] = self.df["timestamp"].dt.hour
         return self.df.groupby("hour").size()
+
+    def export_csv(self, filename="traffic_data.csv"):
+        self.df.to_csv(filename, index=False)
