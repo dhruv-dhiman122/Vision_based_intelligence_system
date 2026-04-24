@@ -14,3 +14,6 @@ class VehicleStats:
                 self.counts[label] = 0
 
             self.counts[label] += 1
+
+    def get_stats(self):
+        return self.counts
