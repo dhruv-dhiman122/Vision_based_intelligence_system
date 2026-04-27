@@ -10,6 +10,7 @@ from community.reports import TrafficReportSystem
 from src.camera_file import VehicleDetector
 from src.vehicle_counter import VehicleCounter
 from utils.notifier import Notifier
+from analysis.heatmap import HeatmapGenerator
 
 api = Flask(__name__)
 
@@ -20,6 +21,7 @@ analyzer = TrafficAnalyzer()
 chatbot = TrafficChatbot(counter, analyzer)
 report_system = TrafficReportSystem()
 data_store = TrafficDataStore()
+heatmap_generator = HeatmapGenerator(data_store)
 
 notifier = Notifier("YOUR_TOKEN", "CHAT_ID")
 
