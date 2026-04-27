@@ -149,6 +149,10 @@ def chat():
     response = chatbot.get_response(user_message)
     return jsonify({"response": response})
 
+@api.route("/heatmap",methods=["GET"])
+def heatmap():
+    data = heatmap_generator.generate()
+    return jsonify(data)
 
 if __name__ == "__main__":
     api.run(debug=True)
