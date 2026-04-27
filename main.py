@@ -12,7 +12,7 @@ analyzer = TrafficAnalyzer()
 
 # TODO -> to replace with my telegram bot details
 notifier = Notifier("token", "my chat id")
-cap = cv2.VideoCapture("video2.mp4")
+cap = cv2.VideoCapture("video1.mp4")
 
 if not cap.isOpened():
     print("Error: Cannot open video")
