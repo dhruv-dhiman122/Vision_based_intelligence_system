@@ -1,29 +1,157 @@
 <!doctype html>
+
 <html>
     <head>
         <title>AI Traffic System</title>
+
+        ```
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
         <style>
             body {
+                margin: 0;
                 font-family: Arial;
-                text-align: center;
-                background: #111;
+                background: #0f172a;
                 color: white;
             }
 
-            img {
+            header {
+                padding: 20px;
+                text-align: center;
+                background: #020617;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .container {
+                padding: 20px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .card {
+                background: #1e293b;
+                padding: 15px;
+                border-radius: 12px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+
+            h2 {
+                margin-top: 0;
+            }
+
+            img,
+            canvas {
+                width: 100%;
                 border-radius: 10px;
-                margin: 10px;
+            }
+
+            .full-width {
+                grid-column: span 2;
             }
         </style>
+        ```
     </head>
 
     <body>
-        <h1>🚦 AI Traffic Monitoring System</h1>
+        <header>🚦 AI Traffic Monitoring Dashboard</header>
 
-        <h2>Live Video</h2>
-        <img src="{{ url_for('video') }}" width="800" />
+        <div class="container">
+            ```
+            <!-- Live Video -->
+            <div class="card full-width">
+                <h2>Live Traffic Feed</h2>
+                <img src="{{ url_for('video') }}" />
+            </div>
 
-        <h2>Traffic Analysis Graph</h2>
-        <img src="/static/graph.png" width="800" />
+            <!-- Heatmap -->
+            <div class="card">
+                <h2>Traffic Heatmap</h2>
+                <canvas id="heatmapChart"></canvas>
+            </div>
+
+            <!-- Vehicle Stats -->
+            <div class="card">
+                <h2>Vehicle Distribution</h2>
+                <canvas id="vehicleChart"></canvas>
+            </div>
+
+            <!-- Traffic Graph -->
+            <div class="card full-width">
+                <h2>Traffic Analysis</h2>
+                <img src="/static/graph.png" />
+            </div>
+            ```
+        </div>
+
+        <script>
+            let heatmapChart;
+            let vehicleChart;
+
+            // Heatmap
+            function loadHeatmap() {
+                fetch("/heatmap")
+                    .then((res) => res.json())
+                    .then((data) => {
+                        const labels = Object.keys(data);
+                        const values = Object.values(data);
+
+                        const ctx = document
+                            .getElementById("heatmapChart")
+                            .getContext("2d");
+
+                        if (heatmapChart) heatmapChart.destroy();
+
+                        heatmapChart = new Chart(ctx, {
+                            type: "bar",
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: "Traffic Intensity",
+                                        data: values,
+                                    },
+                                ],
+                            },
+                        });
+                    });
+            }
+
+            // Vehicle Stats
+            function loadVehicleStats() {
+                fetch("/vehicle_stats")
+                    .then((res) => res.json())
+                    .then((data) => {
+                        const labels = Object.keys(data);
+                        const values = Object.values(data);
+
+                        const ctx = document
+                            .getElementById("vehicleChart")
+                            .getContext("2d");
+
+                        if (vehicleChart) vehicleChart.destroy();
+
+                        vehicleChart = new Chart(ctx, {
+                            type: "pie",
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        data: values,
+                                    },
+                                ],
+                            },
+                        });
+                    });
+            }
+
+            // Auto refresh
+            setInterval(loadHeatmap, 5000);
+            setInterval(loadVehicleStats, 5000);
+
+            loadHeatmap();
+            loadVehicleStats();
+        </script>
     </body>
 </html>
