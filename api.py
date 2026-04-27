@@ -2,7 +2,7 @@ from logging import DEBUG
 
 import cv2
 from flask import Flask, Response, jsonify, render_template, request
-
+import webbrowser
 from analysis.data_store import TrafficDataStore
 from analysis.traffic_analysis import TrafficAnalyzer
 from chatbot.chatbot import TrafficChatbot
@@ -155,4 +155,5 @@ def heatmap():
     return jsonify(data)
 
 if __name__ == "__main__":
+    webbrowser.open("http://127.0.0.1:5000/")
     api.run(debug=True)
