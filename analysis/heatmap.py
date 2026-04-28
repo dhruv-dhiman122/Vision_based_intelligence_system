@@ -3,7 +3,7 @@ class HeatmapGenerator:
         self.data_store = data_store
 
     def generate(self):
-        df - self.data_store.df
+        df = self.data_store.df
 
         if df.empty:
             return {}
