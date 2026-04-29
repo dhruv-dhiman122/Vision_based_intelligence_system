@@ -36,7 +36,8 @@ def generate_frames():
     while True:
         success, frame = cap.read()
         if not success:
-            break
+            cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            continue
 
         frame = cv2.resize(frame, (800, 600))
 
@@ -146,6 +147,12 @@ def chat():
 def heatmap():
     data = heatmap_generator.generate()
     return jsonify(data)
+
+@api.route("/stats", methods=["GET"])
+def stats():
+    total = counter.count if hasattr(counter, "count") else 0
+    traffic_level = analyzer.get_traffic_level(total)
+    return jsonify({"total vehicle " :total, "traffic level": traffic_level})
 
 if __name__ == "__main__":
     webbrowser.open("http://127.0.0.1:5000/")
