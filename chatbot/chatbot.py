@@ -1,4 +1,4 @@
-# This file is for making chatbot system the core idea for it
+# Thie file is for making chatbot system the core idea for it
 
 from chatbot.learning import TrafficLearningSystem
 from main import traffic_level
